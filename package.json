@@ -1,0 +1,35 @@
+{
+  "name": "web-dev",
+  "version": "1.0.0",
+  "description": "Web Dev at Northeastern University",
+  "main": "server.js",
+  "dependencies": {
+    "angular": "^1.6.5",
+    "angular-route": "^1.6.5",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "bootstrap": "^3.3.7",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.4",
+    "express-session": "^1.15.5",
+    "forward": "0.0.5",
+    "forwarded": "^0.1.0",
+    "fs": "0.0.1-security",
+    "mongo": "^0.1.0",
+    "mongodb": "^3.1.10",
+    "mongoose": "^4.11.1",
+    "multer": "^1.4.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "q": "^1.5.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jose G. Annunziato",
+  "license": "ISC"
+}
