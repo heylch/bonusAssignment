@@ -8,6 +8,7 @@ actorModel.findActorById = findActorById;
 actorModel.updateActor = updateActor;
 actorModel.findAllActors = findAllActors;
 actorModel.deleteActorById = deleteActorById;
+actorModel.deleteAllActors = deleteAllActors;
 // userModel.addMovieToActor = addMovieToActor;
 // userModel.removeMovie = removeMovie;
 // userModel.findAllMoviesByActor = findAllMoviesByActor;
@@ -15,7 +16,7 @@ module.exports = actorModel;
 
 
 function updateActor(actorId, actor) {
-    return actorModel.updateOne({_id: actorId},
+    return actorModel.updateOne({id: actorId},
         {$set: actor});
 }
 
@@ -25,7 +26,7 @@ function createActor(actor) {
 }
 
 function findActorById(actorId) {
-    return actorModel.findById(actorId);
+    return actorModel.findById({id:actorId});
 }
 
 function findAllActors() {
@@ -33,7 +34,7 @@ function findAllActors() {
 }
 
 function deleteActorById(actorId) {
-    return actorModel.findOneAndRemove({_id: actorId});
+    return actorModel.findOneAndRemove({id: actorId});
 }
 //
 //
@@ -76,3 +77,8 @@ function deleteActorById(actorId) {
 //         .populate('_movies')
 //         .exec();
 // }
+
+function deleteAllActors() {
+    return actorModel.remove({},function (res) {
+    });
+}

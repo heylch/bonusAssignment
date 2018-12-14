@@ -6,7 +6,8 @@ var movieModel = mongoose.model("MovieModel", movieSchema);
 movieModel.findMovieById = findMovieById;
 movieModel.updateMovie = updateMovie;
 movieModel.findAllMovies = findAllMovies;
-movieModel.deleteMovie = deleteMovie;
+movieModel.deleteMovieById = deleteMovieById;
+movieModel.deleteAllMovies = deleteAllMovies;
 movieModel.createMovie = createMovie;
 // movieModel.addActorToMovie = addActorToMovie;
 module.exports = movieModel;
@@ -15,29 +16,24 @@ function createMovie(movie) {
     return movieModel.create(movie);
 }
 
-function deleteMovie(movieId) {
-    return movieModel.findOneAndRemove(movieId);
+function deleteMovieById(movieId) {
+    return movieModel.findOneAndRemove({id:movieId});
 }
 
 function findMovieById(movieId) {
-    return movieModel
-        .findOne({_id: movieId})
-        .populate('_actors')
-        .exec();
+    return movieModel.findOne({id: movieId});
+
 
 }
 
 function updateMovie(movieId, movie) {
     return movieModel
-        .updateOne({_id: movieId},
+        .updateOne({id: movieId},
             {$set: movie});
 }
 
 function findAllMovies() {
-    return movieModel
-        .find()
-        .populate('_actors')
-        .exec();
+    return movieModel.find();
 }
 
 // function addActorToMovie(movieId,actorId) {
@@ -50,3 +46,10 @@ function findAllMovies() {
 //             return movieModel.updateMovie(movieId,movie);
 //         })
 // }
+
+
+function deleteAllMovies() {
+    return movieModel.remove({},function () {
+        
+    })
+}

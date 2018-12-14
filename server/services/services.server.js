@@ -15,8 +15,11 @@ app.get("/api/actor/:actorId/movie", findAllMoviesForActor);
 app.put("/api/actor/:actorId", updateActor);
 app.put("/api/movie/:movieId", updateMovie);
 app.post("/api/actor/:actorId/movie/:movieId", addActorMovie);
+app.post("/api/movie/:movieId/actor/:actorId", addActorMovie);
 app.delete("/api/actor/:actorId", deleteActor);
-app.delete("/api/movie/:moveId", deleteMovie);
+app.delete("/api/movie/:movieId", deleteMovie);
+app.delete("/api/actor", deleteAllActors);
+app.delete("/api/movie", deleteAllMovies);
 app.delete("/api/actor/:actorId/movie/:movieId", deleteActorMovie);
 app.delete("/api/actor/:actorId/movie", deleteAllMoviesForActor);
 
@@ -78,9 +81,18 @@ function findMovieById(req,res) {
 
 function findAllMoviesForActor(req,res) {
     var actorId = req.params.actorId;
+    var movies  = [];
     actorMovieModel.findAllMoviesForActor(actorId)
-        .then(function (movies) {
-            res.json(movies);
+        .then(function (result) {
+            // console.log(result);
+            // for(i=0; i < result.length; i++){
+            //     movieModel.findMovieById(result[i]._movie)
+            //         .then(function (res1) {
+            //             console.log(res1);
+            //             movies.push(res1);
+            //         })
+            // }
+            res.json(result);
         })
 }
 
@@ -126,6 +138,7 @@ function deleteActor(req,res) {
 
 function deleteMovie(req,res) {
     var movieId = req.params.movieId;
+    console.log(movieId);
     movieModel
         .deleteMovieById(movieId)
         .then(function (movie) {
@@ -137,7 +150,9 @@ function deleteMovie(req,res) {
 
 
 function addActorMovie(req,res) {
-    var actorMovie = req.body;
+    var actorId = req.params.actorId;
+    var movieId = req.params.movieId;
+    var actorMovie = {"_actor":actorId,"_movie":movieId};
     actorMovieModel.createActorMovie(actorMovie)
         .then(function (data) {
             res.json(actorMovie);
@@ -157,8 +172,24 @@ function deleteAllMoviesForActor(req,res) {
     var actorId = req.params.actorId;
     actorMovieModel.deleteAllMoviesForActor(actorId)
         .then(function (result) {
-            res.send(result);
+            res.json(result);
         })
+}
+
+function deleteAllMovies(req,res) {
+    movieModel.deleteAllMovies()
+        .then(function (result) {
+            res.json(result);
+        })
+}
+
+function deleteAllActors(req,res) {
+    actorModel.deleteAllActors()
+        .then(function (result) {
+            // console.log(result);
+            res.json(result);
+        })
+
 }
 
 

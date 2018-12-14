@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const actorMovieSchema = require("./actor_movie.schema.server");
 const actorMovieModel = mongoose.model("ActorMovieModel", actorMovieSchema);
+const movieModel = require('./movie.model.server');
+const actorModel = require('./actor.model.server');
 actorMovieModel.createActorMovie = createActorMovie;
 actorMovieModel.findAllActorsForMovie = findAllActorsForMovie;
 actorMovieModel.findAllMoviesForActor = findAllMoviesForActor;
@@ -8,6 +10,7 @@ actorMovieModel.deleteAllActorsForMovie = deleteAllActorsForMovie;
 actorMovieModel.deleteAllMoviesForActor = deleteAllMoviesForActor;
 actorMovieModel.deleteActorMovie = deleteActorMovie;
 actorMovieModel.deleteAllActorMovies = deleteAllActorMovies;
+actorMovieModel.findAllActorMovies = findAllActorMovies;
 module.exports = actorMovieModel;
 
 function createActorMovie(actorMovie) {
@@ -15,25 +18,24 @@ function createActorMovie(actorMovie) {
 }
 
 function findAllActorsForMovie(movieId) {
-    var actors = [];
     return actorMovieModel.find({_movie:movieId})
-        .populate('_actor')
-        .exec()
         .then(function (res) {
-            for(i=0; i < res.length; i++)
-                actors.push(res._actor);
+            var actors = [];
+            for(i=0; i < res.length; i++){
+                actors.push(res[i]._actor);
+            }
             return actors;
-        })
+        });
 }
 
 function findAllMoviesForActor(actorId) {
-    var movies = [];
     return actorMovieModel.find({_actor:actorId})
-        .populate('_movie')
-        .exec()
         .then(function (res) {
-            for(i=0; i < res.length; i++)
-                movies.push(res._movie);
+            var movies = [];
+            console.log(res);
+            for(i=0; i < res.length; i++){
+                movies.push(res[i]._movie);
+            }
             return movies;
         })
 }
@@ -54,4 +56,10 @@ function deleteAllActorMovies() {
     return actorMovieModel.remove({},function () {
 
     });
+}
+
+function findAllActorMovies() {
+    return actorMovieModel.find()
+        .populate('_actor')
+        .p
 }

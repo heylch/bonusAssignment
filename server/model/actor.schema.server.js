@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var actorSchema = mongoose.Schema({
+    id:Number,
     name: String,
     first: String,
     last:String,
