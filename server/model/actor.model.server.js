@@ -26,7 +26,8 @@ function createActor(actor) {
 }
 
 function findActorById(actorId) {
-    return actorModel.findById({id:actorId});
+    console.log(actorId);
+    return actorModel.findOne({id:actorId});
 }
 
 function findAllActors() {

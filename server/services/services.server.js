@@ -12,6 +12,7 @@ app.get("/api/actor/:actorId", findActorById);
 app.get("/api/movie/:movieId", findMovieById);
 app.get("/api/movie/:movieId/actor", findAllActorsForMovie);
 app.get("/api/actor/:actorId/movie", findAllMoviesForActor);
+app.get("/api/actormovie", findAllActorMovies);
 app.put("/api/actor/:actorId", updateActor);
 app.put("/api/movie/:movieId", updateMovie);
 app.post("/api/actor/:actorId/movie/:movieId", addActorMovie);
@@ -84,14 +85,6 @@ function findAllMoviesForActor(req,res) {
     var movies  = [];
     actorMovieModel.findAllMoviesForActor(actorId)
         .then(function (result) {
-            // console.log(result);
-            // for(i=0; i < result.length; i++){
-            //     movieModel.findMovieById(result[i]._movie)
-            //         .then(function (res1) {
-            //             console.log(res1);
-            //             movies.push(res1);
-            //         })
-            // }
             res.json(result);
         })
 }
@@ -149,13 +142,30 @@ function deleteMovie(req,res) {
 }
 
 
+// function addActorMovie(req,res) {
+//     var actorId = req.params.actorId;
+//     var movieId = req.params.movieId;
+//     var actorMovie = {"_actor":actorId,"_movie":movieId};
+//     actorMovieModel.createActorMovie(actorMovie)
+//         .then(function (data) {
+//             res.json(actorMovie);
+//         })
+// }
 function addActorMovie(req,res) {
     var actorId = req.params.actorId;
     var movieId = req.params.movieId;
-    var actorMovie = {"_actor":actorId,"_movie":movieId};
-    actorMovieModel.createActorMovie(actorMovie)
-        .then(function (data) {
-            res.json(actorMovie);
+    actorModel.findActorById(actorId)
+        .then(function (actor) {
+            console.log(actor);
+            movieModel.findMovieById(movieId)
+                .then(function (movie) {
+                    console.log(movie);
+                    var actorMovie = {"actor":actorId,"movie":movieId,"_actor":actor._id,"_movie":movie._id};
+                    actorMovieModel.createActorMovie(actorMovie)
+                        .then(function (data) {
+                            res.json(actorMovie);
+                        })
+                })
         })
 }
 
@@ -190,6 +200,15 @@ function deleteAllActors(req,res) {
             res.json(result);
         })
 
+}
+
+function findAllActorMovies(req,res) {
+    console.log("findAll");
+    actorMovieModel.findAllActorMovies()
+        .then(function (result) {
+            console.log(result);
+            res.json(result);
+        })
 }
 
 

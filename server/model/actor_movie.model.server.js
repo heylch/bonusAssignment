@@ -18,7 +18,9 @@ function createActorMovie(actorMovie) {
 }
 
 function findAllActorsForMovie(movieId) {
-    return actorMovieModel.find({_movie:movieId})
+    return actorMovieModel.find({movie:movieId})
+        .populate('_actor')
+        .exec()
         .then(function (res) {
             var actors = [];
             for(i=0; i < res.length; i++){
@@ -29,7 +31,9 @@ function findAllActorsForMovie(movieId) {
 }
 
 function findAllMoviesForActor(actorId) {
-    return actorMovieModel.find({_actor:actorId})
+    return actorMovieModel.find({actor:actorId})
+        .populate('_movie')
+        .exec()
         .then(function (res) {
             var movies = [];
             console.log(res);
@@ -41,15 +45,15 @@ function findAllMoviesForActor(actorId) {
 }
 
 function deleteAllActorsForMovie(movieId) {
-    return actorMovieModel.delete({_movie:movieId});
+    return actorMovieModel.remove({movie:movieId});
 }
 
 function deleteAllMoviesForActor(actorId) {
-    return actorMovieModel.delete({_actor:actorId});
+    return actorMovieModel.remove({actor:actorId});
 }
 
 function deleteActorMovie(actorId,movieId) {
-    return actorMovieModel.deleteOne({_actor:actorId,_movie:movieId});
+    return actorMovieModel.deleteOne({actor:actorId,movie:movieId});
 }
 
 function deleteAllActorMovies() {
@@ -59,7 +63,9 @@ function deleteAllActorMovies() {
 }
 
 function findAllActorMovies() {
+    console.log("ahha");
     return actorMovieModel.find()
         .populate('_actor')
-        .p
+        .populate('_movie')
+        .exec();
 }
