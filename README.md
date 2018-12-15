@@ -1,5 +1,7 @@
 # bonusAssignment
-server endpoint: https://bonus-assignment.herokuapp.com
+Server Endpoint: https://bonus-assignment.herokuapp.com
+
+Youtube Link: https://youtu.be/KtpH0hJLB54
 
 then you can try those http request in the structions with Postman
 
